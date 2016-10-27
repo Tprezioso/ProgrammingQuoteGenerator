@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<header>
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text.css">
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</header>
+<style>
+.block {
+  background-color:blue;
+  opacity:0.9;
+  width:50%;
+  margin-right:auto;
+  margin-left:auto;
+  border-radius:10px;
+  height: auto;
+  margin-top: 5%;
+}
+
+.centerTop {
+  margin-right:auto;
+  margin-left:auto;
+  text-align:center;
+  color:white;
+}
+
+.quoteButton {
+  font-size:1.4em;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+  color:white;
+
+}
+
+.btn-default {
+  color:white;
+  border-color:white;
+  border-width:5px;
+  background-color:blue;
+}
+
+body {
+  background-color:blue;
+  margin: auto;
+  background: url("https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&s=9d40ed55e2929fabf5e2fd86af5fe5e0");
+  background-size:contain;
+  align-items: stretch;
+
+}
+
+p {
+  font-size:30px;
+}
+
+</style>
+<script>
+randomColor = function(e,a,b,c) {
+  var colorToBe = "#" + (Math.random() * 0xFFFFFF<<0).toString(16);
+  console.log(colorToBe);
+    e.style.background = colorToBe;
+    console.log(e.style.background);
+    a.style.background = colorToBe;
+    console.log(a.style.background);
+    b.style.background = colorToBe;
+    c.style.background = colorToBe;
+}
+
+function doubleFunc(e,a,b,c,g){
+  randomColor(e,a,b,c);
+  getQuote();
+}
+
+var authorData ="";
+var quoteData ="";
+function getQuote() {
+  $(function (){
+    var $quotes = $('.quote');
+    $.ajax({
+      type: 'GET',
+      url: 'http://quotes.stormconsultancy.co.uk/random.json',
+      success: function(data) {
+        console.log(data);
+        authorData = data.author;
+        quoteData = data.quote;
+        $quotes.empty();
+        $quotes.append('<p>'+data.quote+'<br>' +'- ' +data.author+'</p>')
+      }
+    });
+  });
+}
+
+  $(document).ready(function () {
+    $('#twitter').click(function (e) {
+      var textToTweet = quoteData+' -'+ authorData;
+      if (textToTweet.length > 140) {
+        alert('Tweet should be less than 140 Chars');
+      } else {
+        var twtLink = 'http://twitter.com/home?status=' +encodeURIComponent(textToTweet);
+        window.open(twtLink,'_blank');
+      }
+    });
+  });
+</script>
+
+<div id ="block"class="block container-fluid ">
+<h1 class="centerTop">Quote Generator</h1>
+  <div class="message">
+  <p id="quote" class="centerTop message quote">Get a Random Programmer Quote</p>
+    </div>
+  <div class="btnList quoteButton">
+  <a id="twitter" class = "btn btn-default fa fa-twitter fa-2x">
+      Twitter
+    </a>
+  <a id="quoteButton" class = "btn btn-default pull-right fa fa-quote-right fa-2x " onclick="doubleFunc(block, twitter,block,this,quote)">
+    Get a Quote
+  </a>
+    </div>
+</div>
+</html>
