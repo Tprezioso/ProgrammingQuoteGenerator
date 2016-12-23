@@ -76,7 +76,6 @@ function getQuote() {
       type: 'GET',
       url: 'http://quotes.stormconsultancy.co.uk/random.json',
       success: function(data) {
-        console.log(data);
         authorData = data.author;
         quoteData = data.quote;
         $quotes.empty();
