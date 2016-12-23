@@ -56,11 +56,8 @@ p {
 <script>
 randomColor = function(e,a,b,c) {
   var colorToBe = "#" + (Math.random() * 0xFFFFFF<<0).toString(16);
-  console.log(colorToBe);
   e.style.background = colorToBe;
-  console.log(e.style.background);
   a.style.background = colorToBe;
-  console.log(a.style.background);
   b.style.background = colorToBe;
   c.style.background = colorToBe;
 }
